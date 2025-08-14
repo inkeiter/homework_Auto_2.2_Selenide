@@ -1,0 +1,30 @@
+package ru.netology.web;
+
+
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Configuration;
+import org.junit.jupiter.api.Test;
+
+import java.time.Duration;
+
+import static com.codeborne.selenide.Condition.appear;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.*;
+
+class CardDeliveryTest {
+
+    @Test
+    void shouldRegistrationOfDeliveryCard() {
+    Configuration.holdBrowserOpen = true;
+    open("http://localhost:9999/");
+    $("[data-test-id='city'] input").setValue("Майкоп");
+    $("[data-test-id='date'] input").setValue("17.08.2025");
+    $("[data-test-id='name'] input").setValue("Петров Олег");
+    $("[data-test-id='phone'] input").setValue("+71234567890");
+    $("[data-test-id='agreement']").click();
+    $x("//span[text()='Забронировать']").click();
+    $x("//*[@class='spin spin_size_m spin_visible spin_theme_alfa-on-color']").shouldBe(visible, Duration.ofSeconds(15));
+    $("[data-test-id='notification']").should(appear, Duration.ofSeconds(15));
+
+    }
+}
